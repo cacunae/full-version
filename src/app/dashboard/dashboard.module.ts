@@ -11,6 +11,7 @@ import { MatchHeightModule } from "../shared/directives/match-height.directive";
 import { Dashboard1Component } from "./dashboard1/dashboard1.component";
 import { Dashboard2Component } from "./dashboard2/dashboard2.component";
 import { BillChartComponent } from './bill-chart/bill-chart.component';
+import { BillPreviewComponent } from './bill-preview/bill-preview.component';
 
 
 
@@ -28,7 +29,8 @@ import { BillChartComponent } from './bill-chart/bill-chart.component';
     declarations: [
         Dashboard1Component,
         Dashboard2Component,
-        BillChartComponent
+        BillChartComponent,
+        BillPreviewComponent
     ],
     providers: [],
 })

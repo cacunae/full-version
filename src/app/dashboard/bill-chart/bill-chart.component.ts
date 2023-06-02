@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from "ng-chartist";
+import { EventEmitter } from 'events';
+import { Output } from '@angular/compiler/src/core';
+import { BillPreviewComponent } from '../bill-preview/bill-preview.component';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -71,7 +74,8 @@ let salida: any[] = [100, 300, 200, 120, 130, 140, 150, 160,100, 300, 200, 120];
 
 export class BillChartComponent  {
   columnChartOptions : Partial<ChartOptions>;
-  
+
+
   constructor(){
     this.columnChartOptions = {
   
@@ -121,6 +125,9 @@ export class BillChartComponent  {
         }
       },
       tooltip: {
+        custom: function({val}) {
+          
+        },
         y: {
           formatter: function (val) {
             return "$" + val + " thousands"
