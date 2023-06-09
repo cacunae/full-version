@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnChanges,SimpleChanges } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from "ng-chartist";
 import { EventEmitter } from 'events';
@@ -48,8 +48,8 @@ export type ChartOptions = {
 };
 
 
-var $info = "#2F8BE6",
-$info_light = "#ACE0FC"
+var $info = "#33CC33",
+$info_light = "#FF6666"
 var themeColors = [$info, $info_light];
 
 
@@ -63,8 +63,6 @@ export interface Chart {
 }
 
 
-let ingreso: any[] = [300, 200, 80, 190, 320, 145,130, 180,300, 200, 80, 190]; 
-let salida: any[] = [100, 300, 200, 120, 130, 140, 150, 160,100, 300, 200, 120];
 
 @Component({
   selector: 'app-bill-chart',
@@ -72,21 +70,40 @@ let salida: any[] = [100, 300, 200, 120, 130, 140, 150, 160,100, 300, 200, 120];
   styleUrls: ['./bill-chart.component.scss']
 })
 
-export class BillChartComponent  {
+export class BillChartComponent implements AfterViewInit {
   columnChartOptions : Partial<ChartOptions>;
+  puntero: any = 0;
+  tipoFactura: any = 0;
+  series: any = 0;
 
-
-  constructor(){
-    this.columnChartOptions = {
   
-      chart: {
-        height: 350,
-        type: 'bar',
-        toolbar: {
-          show: true
-        },
+  ngAfterViewInit(): void {
+    
+    
+    
+  }
+  
+  ngOnInit(): void {
+    const ingreso: any[] = [300, 200, 80, 190, 320, 145,130, 180,300, 200, 80, 190]; 
+    const salida: any[] = [100, 300, 200, 120, 130, 140, 150, 160,100, 300, 200, 120];
+
+    this.columnChartOptions = {
+    chart: {
+      height: 350,
+      type: 'bar',
+      toolbar: {
+        show: true
+      },
         animations: {
           enabled: true
+        },
+        events:{
+          dataPointSelection: (event:any,chartContext:any, config:any)=>{
+              this.updateSelected(config);
+              console.log("puntero es: ", config)
+              console.log("contexto del grafico: ", chartContext)
+              console.log("evento: ", event)
+          }
         }
       },
       colors: themeColors,
@@ -94,7 +111,7 @@ export class BillChartComponent  {
         bar: {
           horizontal: false,
           endingShape: 'rounded',
-          columnWidth: '45%',
+          columnWidth: '65%',
         },
       },
       grid: {
@@ -119,24 +136,30 @@ export class BillChartComponent  {
         show: false
       },
       xaxis: {
-        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep','Feb', 'Mar', 'Apr', 'May'],
+        categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep','Oct', 'Nov', 'Dec'],
         axisBorder: {
           color: "#BDBDBD44"
         }
       },
-      tooltip: {
-        custom: function({val}) {
-          
-        },
+      tooltip:{
         y: {
           formatter: function (val) {
             return "$" + val + " thousands"
           }
-        }
+        } 
       }
     }
+    
+  } 
+  
+  updateSelected=(index :any)=>{
+    console.log("funciono el evento")
+    this.puntero = index.dataPointIndex;
+    this.tipoFactura = index.seriesIndex;
+    this.series = index.w.globals.series[this.tipoFactura][this.puntero]
   }
 
+  
   public barChartOptions = chartsData.barChartOptions;
   public barChartLabels = chartsData.barChartLabels;
   public barChartType = chartsData.barChartType;
@@ -145,7 +168,8 @@ export class BillChartComponent  {
   public barChartColors = chartsData.barChartColors;
 
 
-  
+
+
 
   onResized(event: any) {
     setTimeout(() => {

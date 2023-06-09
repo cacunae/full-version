@@ -1,1 +1,24 @@
-<p>{{selectedBill}}</p>
+<div class="card shadow-lg ">
+    <div class="card-header height-110" >
+        <h4 class="card-title d-flex justify-content-between" style="margin-bottom: 0.5rem">
+            <span classs="mr-auto">Factura: {{selectedBill}}</span>
+          
+            <span class="ml-auto">  {{tipoFactura}}</span>
+            <i *ngIf="green"class="fa fa-circle font-small-3 mr-1" style="color:#33CC33; margin-left: 10px; margin-top: 4px;" ></i>
+            <i *ngIf="red"class="fa fa-circle font-small-3 mr-1" style="color:#FF6666; margin-left: 10px; margin-top: 4px;" ></i>
+        </h4>
+        <div class="d-flex flex-column align-items-left" style="gap:5px">
+
+            <span> Fecha emision: </span>
+            <span> Fecha vencimiento: </span>
+        </div>
+    </div>
+    <div class="card-content shadow-lg card-body height-350 d-flex align-items-center justify-content-center">
+        <div class="d-flex flex-column align-items-center" style="gap:30px">
+            <span>El valor es: $ {{valorSerie}}  </span>
+            <button class="btn btn-primary">
+                Pagar
+            </button>
+        </div>
+    </div>
+</div>
